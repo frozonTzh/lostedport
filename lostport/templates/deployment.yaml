@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lost-port-app
+  labels:
+    app: lost-port-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lost-port-app
+  template:
+    metadata:
+      name: lost-port-app
+      labels:
+        app: lost-port-app
+    spec:
+      containers:
+        - name: lost-port-app
+          image: frozon6/testing:lostport
+          imagePullPolicy: Always
+          lifecycle:
+            preStop:
+              exec:
+                command: [ "sh", "-c", "sleep 10" ]
+          ports:
+            - containerPort: 8080
+      restartPolicy: Always
+      
